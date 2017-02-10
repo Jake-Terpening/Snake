@@ -1,0 +1,40 @@
+﻿<!--    NAME              ID
+        Jake Terpening    21945519
+        Whitney Tran      77187709
+        Daniel Williams   77402284
+        Tristan Bock      50665011-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Snake Game</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        canvas {
+            background: #eee;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <script src="fancywebsocket.js"></script>
+</head>
+<body>
+
+    <canvas id="myCanvas" width="480" height="480"></canvas>
+
+    <div id='body'>
+        Server ip: <input type='text' id='ip' name='ip' autofocus>
+        Server port: <input type='text' id='port' name='port'>
+        Player1 id: <input type='text' id='player1id' name='player1id'>
+        Player2 id: <input type='text' id='player2id' name='player2id'>
+        <button type="button" id='cntBtn' onclick="connect();">Connect</button>
+    </div>
+
+    <script type="text/javascript" src="main.js"></script>>
+</body>
+</html>
