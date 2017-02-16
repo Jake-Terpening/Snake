@@ -57,8 +57,8 @@ public:
 		cout << "food was set" << endl;
 		xpos3 = rand() % 10;
 		ypos3 = rand() % 10;
-		if (field[xpos3][ypos3] == 0)
-			field[xpos3][ypos3] = 3;
+		if (field[ypos3][xpos3] == 0)
+			field[ypos3][xpos3] = 3;
 		else
 			set_food();
 	}
