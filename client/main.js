@@ -56,6 +56,7 @@ function connect() {
 
     Server.bind('open', function () {
         document.getElementById("cntBtn").disabled = true;
+	send("playerid " + document.getElementById('playerid').value);
     });
 
     Server.bind('close', function (data) {
@@ -69,7 +70,7 @@ function connect() {
 
     //updates server on current client state
     function update() {
-	Server.send(getKeypress());
+	send(getKeypress());
     }
 
     //yup
