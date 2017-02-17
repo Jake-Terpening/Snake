@@ -12,29 +12,45 @@
     <style>
         * {
             padding: 0;
-            margin: 0;
+            margin: 0 auto;
         }
 
         canvas {
             background: #eee;
+            padding: 0;
+            margin: auto;
             display: block;
-            margin: 0 auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
+
+        #serverBody {
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right:0;
+            bottom: 0;
+        }
+
     </style>
     <script src="fancywebsocket.js"></script>
 </head>
+
 <body>
 
     <canvas id="myCanvas" width="480" height="480"></canvas>
 
-    <div id='body'>
+    <div id="serverBody">
         Server ip: <input type='text' id='ip' name='ip' autofocus>
         Server port: <input type='text' id='port' name='port'>
-        Player1 id: <input type='text' id='player1id' name='player1id'>
-        Player2 id: <input type='text' id='player2id' name='player2id'>
-        <button type="button" id='cntBtn' onclick="connect();">Connect</button>
+        Player id: <input type='text' id='playerid' name='playerid'>
+       <button type="button" id='cntBtn' onclick="connect();">Connect</button>
     </div>
-
-    <script type="text/javascript" src="main.js"></script>>
+        
+    <script type="text/javascript" src="main.js"></script>
 </body>
 </html>
