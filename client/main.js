@@ -25,7 +25,15 @@ function Snake(posx, posy, dir) {
 
     //need to complete
     this.update = function () {
-
+	if(server.get() == "messageGrow"){
+		this.grow();
+	}
+	if(server.get() == "messageCollision"){
+		this.die();
+	}
+	if(server.get() == "messageOkDir"){
+		this.direction = keypress;
+	}
     }
 }
 
@@ -61,7 +69,7 @@ function connect() {
 
     //updates server on current client state
     function update() {
-
+	Server.send(getKeypress());
     }
 
     //yup
@@ -84,4 +92,10 @@ function connect() {
         init();
         loop();
     }
+}
+
+//Get which key was pressed
+function getKeypress() {
+	//W/UP, A/LEFT, S/DOWN, D/RIGHT
+	//Here goes stuff
 }
