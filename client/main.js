@@ -5,7 +5,7 @@
 //Tristan Bock      50665011
 
 
-var server;
+var Server = fancyWebSocket;
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -25,13 +25,13 @@ function Snake(posx, posy, dir) {
 
     //need to complete
     this.update = function () {
-	if(server.get() == "messageGrow"){
+	if(Server.get() == "messageGrow"){
 		this.grow();
 	}
-	if(server.get() == "messageCollision"){
+	if(Server.get() == "messageCollision"){
 		this.die();
 	}
-	if(server.get() == "messageOkDir"){
+	if(Server.get() == "messageOkDir"){
 		this.direction = keypress;
 	}
     }
