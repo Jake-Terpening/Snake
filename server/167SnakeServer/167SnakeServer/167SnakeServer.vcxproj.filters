@@ -38,6 +38,9 @@
     <ClInclude Include="..\..\websocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\gamestate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Makefile" />

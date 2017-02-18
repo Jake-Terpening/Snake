@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\base64.h" />
+    <ClInclude Include="..\..\gamestate.h" />
     <ClInclude Include="..\..\sha1.h" />
     <ClInclude Include="..\..\websocket.h" />
   </ItemGroup>
