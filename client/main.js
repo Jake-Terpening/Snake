@@ -11,6 +11,8 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var SPACESIZE = 20;
 
+var KEY_LEFT = 37, KEY_UP = 38, KEY_RIGHT = 39, KEY_DOWN = 40; //keyboard [left,up,right,down]
+var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
 
 function Snake(posx, posy, dir) {
     this.direction = dir,
@@ -25,15 +27,15 @@ function Snake(posx, posy, dir) {
 
     //need to complete
     this.update = function () {
-	if(server.get() == "messageGrow"){
-		this.grow();
-	}
-	if(server.get() == "messageCollision"){
-		this.die();
-	}
-	if(server.get() == "messageOkDir"){
-		this.direction = keypress;
-	}
+	    if(server.get() == "messageGrow"){
+		    this.grow();
+	    }
+	    if(server.get() == "messageCollision"){
+		    this.die();
+	    }
+	    if(server.get() == "messageOkDir"){
+		    this.direction = keypress;
+	    }
     }
 }
 
@@ -56,7 +58,7 @@ function connect() {
 
     Server.bind('open', function () {
         document.getElementById("cntBtn").disabled = true;
-	send("playerid " + document.getElementById('playerid').value);
+	    send("SETUP:" + document.getElementById('playerid').value);
     });
 
     Server.bind('close', function (data) {
@@ -70,7 +72,7 @@ function connect() {
 
     //updates server on current client state
     function update() {
-	send(getKeypress());
+	    send(getKeypress());
     }
 
     //yup
@@ -96,7 +98,8 @@ function connect() {
 }
 
 //Get which key was pressed
-function getKeypress() {
+document.addEventListener("keydown", keyDownHandler, false);
+function getKeypress(e) {
 	//W/UP, A/LEFT, S/DOWN, D/RIGHT
-	//Here goes stuff
+    //Here goes stuff
 }
