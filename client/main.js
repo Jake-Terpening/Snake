@@ -5,7 +5,7 @@
 //Tristan Bock      50665011
 
 
-var server;
+var Server;
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
@@ -53,12 +53,13 @@ function send(text) {
 }
 
 function connect() {
-    send('ws://' + document.getElementById('ip').value + ':' + document.getElementById('port').value);
+    Server = new FancyWebSocket('ws://' + document.getElementById('ip').value + ':' + document.getElementById('port').value);
     Server.connect();
 
     Server.bind('open', function () {
         document.getElementById("cntBtn").disabled = true;
-	    send("SETUP:" + document.getElementById('playerid').value);
+        send("SETUP:" + document.getElementById('playerid').value);
+        main();
     });
 
     Server.bind('close', function (data) {
@@ -78,6 +79,8 @@ function connect() {
     //yup
     function draw() {
         //visual goodness
+
+        ctx.fillStyle = "#eee";
     }
 
     function loop() {
@@ -92,6 +95,11 @@ function connect() {
     }
 
     function main() {
+        canvas = document.createElement("canvas");
+        canvas.width = 480;
+        canvas.height = 480;
+        ctx = canvas.getContext("2d");
+
         init();
         loop();
     }
