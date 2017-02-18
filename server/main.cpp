@@ -25,11 +25,11 @@ void openHandler(int clientID) {
 
 	std::cout << clientID << " joined." << std::endl;
 
-	if (State.empty()) {
-		State[clientID] = "p1";
+	if (players.empty()) {
+		players[clientID] = "1";
 	}
-	else if (State.size() == 1) {
-		State[clientID] = "p2";
+	else if (players.size() == 1) {
+		players[clientID] = "2";
 	}
 	else {
 		server.wsClose(clientID);
@@ -39,7 +39,7 @@ void openHandler(int clientID) {
 /* called when a client disconnects */
 void closeHandler(int clientID) {
 	std::cout << clientID << " disconnected." << std::endl;
-	State.erase(clientID);
+	players.erase(clientID);
 
 }
 
@@ -62,14 +62,47 @@ void messageHandler(int clientID, string message) {
 	vector<string> messageReceived = split(message, ); //need to fill
 }
 
-void moveHandler(int clientID, string direction) {
+int moveHandler(int clientID, string direction) {
 	//given direction of client, apply game logic
+
+	std::string playerMove = players[clientID] + direction; // (ex 1a2w means player 1 pressed a and player 2 pressed w)
+	State.set_dir_by_str(playerMove);
+
+	if (State.check_collisions()) {
+		return -1;
+	}
+
+	ostringstream os; // what to send back?
+	os << "STATE:";
+
+	vector<int> clientIDs = server.getClientIDs();
+	for (unsigned int i = 0; i < clientIDs.size(); i++) {
+		server.wsSend(clientIDs[i], os.str());
+	}
+
+	return 0;
 }
 
 /* this could probably just merge with messageHandler */
 void moveResults(int clientID, string message) {
 	//if needs SETUP and has 2 players, sends clients the ok for new game
 	//else should call on moveHandler to update game state and return update to client
+	vector<string> messageReceived = split(message, ':');
+
+	if (messageReceived[0] == "SETUP" && players.size() == 2) {
+		// board setup
+	}
+
+	// (ex: MOVE:DIRECTION )
+	else if (messageReceived[0] == "MOVE"){
+		string direction = messageReceived[1];
+
+		int moveUpdate = moveHandler(clientID, direction);
+
+		if (moveUpdate == -1) {
+			// collision, end game
+		}
+	}
 }
 
 /* called once per select() loop */
