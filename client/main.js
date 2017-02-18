@@ -11,6 +11,10 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var SPACESIZE = 20;
 
+var snake1 = "", snake2 = "";
+var clientSnake; // client's snake
+var score1 = 0, score2 = 0;
+
 var KEY_LEFT = 37, KEY_UP = 38, KEY_RIGHT = 39, KEY_DOWN = 40; //keyboard [left,up,right,down]
 var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
 
@@ -69,6 +73,7 @@ function connect() {
     //receives message back from server to update client
     Server.bind('message', function (message) {
         var messageArr = message.split(); //which ever format the message comes in
+
     });
 
     //updates server on current client state
@@ -80,7 +85,9 @@ function connect() {
     function draw() {
         //visual goodness
 
-        ctx.fillStyle = "#eee";
+        ctx.fillStyle = "#000";
+        ctx.fillText("P1: " + score1, 5, 20);
+        ctx.fillText("P2: " + score2, 5, 40);
     }
 
     function loop() {
@@ -99,6 +106,8 @@ function connect() {
         canvas.width = 480;
         canvas.height = 480;
         ctx = canvas.getContext("2d");
+        document.body.appendChild(canvas);
+        ctx.font = "16px Arial";
 
         init();
         loop();

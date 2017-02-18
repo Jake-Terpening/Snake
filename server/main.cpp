@@ -59,7 +59,7 @@ vector<string> split(string message, char delimiter) {
 
 /* called when a client sends a message to the server */
 void messageHandler(int clientID, string message) {
-	vector<string> messageReceived = split(message, ); //need to fill
+	vector<string> messageReceived = split(message, ':'); //need to fill
 }
 
 int moveHandler(int clientID, string direction) {
