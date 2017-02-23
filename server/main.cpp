@@ -18,6 +18,12 @@ using namespace std;
 webSocket server;
 gamestate State;
 map<int, string> players; //keeps track of which client is which snake
+std::string p1Name = "P1", p2Name = "P2";
+
+void init()		// fresh game
+{
+	State = gamestate();
+}
 
 /* called when a client connects */
 /* tracks clients to players*/
@@ -27,9 +33,11 @@ void openHandler(int clientID) {
 
 	if (players.empty()) {
 		players[clientID] = "1";
+		std::cout << "Players mapped 1" << std::endl;
 	}
 	else if (players.size() == 1) {
 		players[clientID] = "2";
+		std::cout << "Players mapped 2" << std::endl;
 	}
 	else {
 		server.wsClose(clientID);
@@ -41,6 +49,10 @@ void closeHandler(int clientID) {
 	std::cout << clientID << " disconnected." << std::endl;
 	players.erase(clientID);
 
+	// Player DC, game init
+	if (players.size() < 2) {
+		init();
+	}
 }
 
 /* Return a vector of strings split over the delimiter for message*/
@@ -59,7 +71,8 @@ vector<string> split(string message, char delimiter) {
 
 /* called when a client sends a message to the server */
 void messageHandler(int clientID, string message) {
-	vector<string> messageReceived = split(message, ':'); //need to fill
+	vector<string> messageArr = split(message, ':');
+	std::cout << "messageHandler" << std::endl;
 }
 
 int moveHandler(int clientID, string direction) {
@@ -72,42 +85,68 @@ int moveHandler(int clientID, string direction) {
 		return -1;
 	}
 
-	ostringstream os; // what to send back?
-	os << "STATE:";
+	ostringstream os; // STATE:foodLoc:player1Loc:player2Loc:score1:score2:FoodEaten(0/1/2)
+		os << "UPDATE:" << State.foodLoc() << ":" << State.playerLoc(1) << ":"
+		<< State.playerLoc(2) << ":" << State.playerSco(1) << ":" << State.playerSco(2)
+		<< ":" << State.eatFood;
 
 	vector<int> clientIDs = server.getClientIDs();
-	for (unsigned int i = 0; i < clientIDs.size(); i++) {
+	for (int i = 0; i < clientIDs.size(); i++) {
 		server.wsSend(clientIDs[i], os.str());
 	}
 
 	return 0;
 }
 
-/* this could probably just merge with messageHandler */
+
 void moveResults(int clientID, string message) {
 	//if needs SETUP and has 2 players, sends clients the ok for new game
 	//else should call on moveHandler to update game state and return update to client
-	vector<string> messageReceived = split(message, ':');
+	vector<string> messageArr = split(message, ':');
 
-	if (messageReceived[0] == "SETUP" && players.size() == 2) {
-		// board setup
+	std::cout << "moveResult" << std::endl;
+
+	// (ex: START:playerNameInput )
+	if (messageArr[0] == "START" && players.size() == 2) {
+
+		std::cout << "Reached START" << std::endl;
+		if (players[clientID] == "1" && messageArr[1] != "") // Set custom name. If none, default name used
+			p1Name = messageArr[1];
+
+		if (players[clientID] == "2" && messageArr[1] != "")
+			p2Name = messageArr[1];
+
+		ostringstream os; // START:col:row:clientSnake:p1Name:p2Name
+		os << "START:" << State.colRow() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name;
+
+		vector<int> clientIDs = server.getClientIDs();
+		for (int i = 0; i < clientIDs.size(); i++) {
+			server.wsSend(clientIDs[i], os.str());
+		}
 	}
 
 	// (ex: MOVE:DIRECTION )
-	else if (messageReceived[0] == "MOVE"){
-		string direction = messageReceived[1];
+	else if (messageArr[0] == "MOVE"){
+		string direction = messageArr[1];
 
 		int moveUpdate = moveHandler(clientID, direction);
 
 		if (moveUpdate == -1) {
-			// collision, end game
+			ostringstream os;
+			os << "RESET" ;		// Reset due to collision
+
+			vector<int> clientIDs = server.getClientIDs();
+			for (int i = 0; i < clientIDs.size(); i++) {
+				server.wsSend(clientIDs[i], os.str());
+			}
+			init();
 		}
 	}
 }
 
 /* called once per select() loop */
 void periodicHandler() {
-	moveResults;
+	moveResults; // How to call this?
 }
 
 int main(int argc, char *argv[]) {

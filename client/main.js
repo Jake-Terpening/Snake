@@ -10,8 +10,9 @@ var Server;
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var SPACESIZE = 20;
+var col = 0, row = 0; // store size of board
 
-var snake1 = "", snake2 = "";
+var p1Name = "", p2Name = "";
 var clientSnake; // client's snake
 var score1 = 0, score2 = 0;
 
@@ -23,10 +24,15 @@ function Snake(posx, posy, dir) {
     this.body = [{x:posx, y:posy}],
     this.head = this.body[0],
 
-    //it eats, it grows
+    // it eats, it grows
     this.grow = function (posx, posy) {
         this.body.unshift({ x: posx, y: posy });
         this.head = this.body[0];
+    }
+
+    // used when shifting snake along board, pops end bit off
+    this.shed = function () {
+        return this._queue.pop();
     }
 
     //need to complete
@@ -61,9 +67,8 @@ function connect() {
     Server.connect();
 
     Server.bind('open', function () {
+        send("START:" + document.getElementById('playerid').value);
         document.getElementById("cntBtn").disabled = true;
-        send("SETUP:" + document.getElementById('playerid').value);
-        main();
     });
 
     Server.bind('close', function (data) {
@@ -72,8 +77,22 @@ function connect() {
 
     //receives message back from server to update client
     Server.bind('message', function (message) {
-        var messageArr = message.split(); //which ever format the message comes in
+        var messageArr = message.split(':'); //which ever format the message comes in
 
+        if (messageArr[0] == "START") // START:col:row:clientSnake
+        {
+            col = messageArr[1];
+            row = messageArr[2];
+            clientSnake = messageArr[3];
+            p1Name = messageArr[4];
+            p2name = messageArr[5];
+            main();
+        }
+
+        else if (messageArr[0] == "UPDATE") // STATE:foodLoc:player1Loc:player2Loc:score1:score2:FoodEaten(0/1/2)
+        {
+
+        }
     });
 
     //updates server on current client state
@@ -84,10 +103,20 @@ function connect() {
     //yup
     function draw() {
         //visual goodness
+      
+        if (clientSnake == "1")
+        {
+            ctx.fillStyle = "#000";
+            ctx.fillText(p1Name + score1, 5, 20);
+            ctx.fillText(p2name + score2, 5, 40);
+        }
 
-        ctx.fillStyle = "#000";
-        ctx.fillText("P1: " + score1, 5, 20);
-        ctx.fillText("P2: " + score2, 5, 40);
+        else if (clientSnake == "2")
+        {
+            ctx.fillStyle = "#000";
+            ctx.fillText(p2Name + score2, 5, 20);
+            ctx.fillText(p1name + score1, 5, 40);
+        }
     }
 
     function loop() {
@@ -98,13 +127,20 @@ function connect() {
     }
 
     function init() {
-        //intialize board
+        // empty board marked with 0
+        for (var x = 0; x < col; x++)
+        {
+            for (var y = 0; y < row; y++)
+            {
+                grid[x][y] = 0;
+            }
+        }
     }
 
     function main() {
         canvas = document.createElement("canvas");
-        canvas.width = 480;
-        canvas.height = 480;
+        canvas.width = col * 20;
+        canvas.height = row * 20;
         ctx = canvas.getContext("2d");
         document.body.appendChild(canvas);
         ctx.font = "16px Arial";

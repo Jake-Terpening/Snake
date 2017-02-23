@@ -2,6 +2,7 @@
 #include <utility>
 #include <iostream>
 #include <time.h>
+#include <string>
 
 using namespace std;
 
@@ -26,6 +27,9 @@ private:
 	int ypos3;		//stores the y position of the food
 
 public:
+
+	std::string eatFood = "0";
+
 	gamestate() 			//default constructor creates a 10x10 board
 	{
 		xpos1 = 1;				//player 1 starts 1 space in from the upper right corner facing down
@@ -100,10 +104,17 @@ public:
 		int newy1 = ypos1 + dir1.second;
 		int newx2 = xpos2 + dir2.first;
 		int newy2 = ypos2 + dir2.second;
-		if (field[newy1][newx1] == 3)
+		if (field[newy1][newx1] == 3) 
+		{
+			eatFood = "1";
 			return 1;
-		if (field[newy2][newx2] == 3)
+		}
+		if (field[newy2][newx2] == 3) 
+		{
+			eatFood = "2";
 			return 2;
+		}
+		eatFood = "0";
 		return 0;
 	}
 
@@ -182,6 +193,32 @@ public:
 			cout << "_";
 		}
 		cout << "\n\n";
+	}
+
+	std::string foodLoc()		// return coor in string
+	{
+		return std::to_string(xpos3) + "," + std::to_string(ypos3);
+	}
+
+	std::string playerLoc(int player)		// return player pos in string
+	{
+		if (player == 1)
+			return std::to_string(xpos1) + "," + std::to_string(ypos1);
+		else if (player == 2)
+			return std::to_string(xpos2) + "," + std::to_string(ypos2);
+	}
+
+	std::string playerSco(int player)		// return player score in string
+	{
+		if (player == 1)
+			return std::to_string(score1);
+		else if (player == 2)
+			return std::to_string(score2);
+	}
+
+	std::string colRow()		// return player score in string
+	{
+		return to_string(sizeof(field)) + ":" + to_string(sizeof(field[0]));
 	}
 
 	void set_dir_by_str(string s)		//sets directions using a string input (ex 1a2w means player 1 pressed a and player 2 pressed w)
