@@ -1,9 +1,34 @@
-﻿  main.cpp
-c:\users\whitney\documents\github\snake\server\main.cpp(94): warning C4018: '<': signed/unsigned mismatch
-c:\users\whitney\documents\github\snake\server\main.cpp(123): warning C4018: '<': signed/unsigned mismatch
-c:\users\whitney\documents\github\snake\server\main.cpp(139): warning C4018: '<': signed/unsigned mismatch
-c:\users\whitney\documents\github\snake\server\main.cpp(149): warning C4551: function call missing argument list
-c:\users\whitney\documents\github\snake\server\gamestate.h(217): warning C4715: 'gamestate::playerSco': not all control paths return a value
-c:\users\whitney\documents\github\snake\server\gamestate.h(209): warning C4715: 'gamestate::playerLoc': not all control paths return a value
-  167SnakeServer.vcxproj -> C:\Users\Whitney\Documents\GitHub\Snake\server\167SnakeServer\Debug\167SnakeServer.exe
-  167SnakeServer.vcxproj -> C:\Users\Whitney\Documents\GitHub\Snake\server\167SnakeServer\Debug\167SnakeServer.pdb (Partial PDB)
+﻿  websocket.cpp
+c:\users\mono\documents\github\snake\server\websocket.cpp(96): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'LPVOID'
+c:\users\mono\documents\github\snake\server\websocket.cpp(119): warning C4018: '<': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\websocket.cpp(133): warning C4018: '<': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\websocket.cpp(155): warning C4018: '>=': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\websocket.cpp(168): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\mono\documents\github\snake\server\websocket.cpp(192): warning C4267: '=': conversion from 'size_t' to 'char', possible loss of data
+c:\users\mono\documents\github\snake\server\websocket.cpp(201): warning C4267: '=': conversion from 'size_t' to 'char', possible loss of data
+c:\users\mono\documents\github\snake\server\websocket.cpp(202): warning C4267: '=': conversion from 'size_t' to 'char', possible loss of data
+c:\users\mono\documents\github\snake\server\websocket.cpp(216): warning C4267: '=': conversion from 'size_t' to 'char', possible loss of data
+c:\users\mono\documents\github\snake\server\websocket.cpp(217): warning C4267: '=': conversion from 'size_t' to 'char', possible loss of data
+c:\users\mono\documents\github\snake\server\websocket.cpp(218): warning C4267: '=': conversion from 'size_t' to 'char', possible loss of data
+c:\users\mono\documents\github\snake\server\websocket.cpp(409): warning C4018: '<': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\websocket.cpp(607): warning C4018: '>=': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\websocket.cpp(634): warning C4018: '<': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\websocket.cpp(648): warning C4018: '>=': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\websocket.cpp(758): warning C4018: '<': signed/unsigned mismatch
+  sha1.cpp
+c:\users\mono\documents\github\snake\server\sha1.cpp(234): warning C4267: '+=': conversion from 'size_t' to 'unsigned char', possible loss of data
+c:\users\mono\documents\github\snake\server\sha1.cpp(241): warning C4267: '+=': conversion from 'size_t' to 'unsigned char', possible loss of data
+c:\users\mono\documents\github\snake\server\sha1.cpp(272): warning C4267: '+=': conversion from 'size_t' to 'unsigned char', possible loss of data
+  main.cpp
+c:\users\mono\documents\github\snake\server\main.cpp(94): warning C4018: '<': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\main.cpp(123): warning C4018: '<': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\main.cpp(139): warning C4018: '<': signed/unsigned mismatch
+c:\users\mono\documents\github\snake\server\main.cpp(149): warning C4551: function call missing argument list
+  base64.cpp
+c:\users\mono\documents\github\snake\server\base64.cpp(104): warning C4267: '=': conversion from 'size_t' to 'unsigned char', possible loss of data
+c:\users\mono\documents\github\snake\server\base64.cpp(121): warning C4267: '=': conversion from 'size_t' to 'unsigned char', possible loss of data
+  Generating Code...
+c:\users\mono\documents\github\snake\server\gamestate.h(217): warning C4715: 'gamestate::playerSco': not all control paths return a value
+c:\users\mono\documents\github\snake\server\gamestate.h(209): warning C4715: 'gamestate::playerLoc': not all control paths return a value
+  167SnakeServer.vcxproj -> C:\Users\Mono\Documents\GitHub\Snake\server\167SnakeServer\Debug\167SnakeServer.exe
+  167SnakeServer.vcxproj -> C:\Users\Mono\Documents\GitHub\Snake\server\167SnakeServer\Debug\167SnakeServer.pdb (Partial PDB)

@@ -158,8 +158,8 @@ int main(int argc, char *argv[]) {
 	/* set event handler */
 	server.setOpenHandler(openHandler);
 	server.setCloseHandler(closeHandler);
-	server.setMessageHandler(messageHandler);
-	server.setPeriodicHandler(periodicHandler); // to periodically check state
+	server.setMessageHandler(moveResults);
+	//server.setPeriodicHandler(periodicHandler); // to periodically check state
 
 	/* start the chatroom server, listen to ip '127.0.0.1' and port '8000' */
 	server.startServer(port);
