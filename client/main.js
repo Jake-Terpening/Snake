@@ -103,20 +103,11 @@ function connect() {
     //yup
     function draw() {
         //visual goodness
-      
-        if (clientSnake == "1")
-        {
-            ctx.fillStyle = "#000";
-            ctx.fillText(p1Name + score1, 5, 20);
-            ctx.fillText(p2name + score2, 5, 40);
-        }
 
-        else if (clientSnake == "2")
-        {
-            ctx.fillStyle = "#000";
-            ctx.fillText(p2Name + score2, 5, 20);
-            ctx.fillText(p1name + score1, 5, 40);
-        }
+        ctx.fillStyle = "#000";
+        ctx.fillText(p1Name + score1, 5, 20);
+        ctx.fillText(p2name + score2, 5, 40);
+
     }
 
     function loop() {

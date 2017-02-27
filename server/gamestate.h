@@ -218,7 +218,7 @@ public:
 
 	std::string colRow()		// return player score in string
 	{
-		return to_string(sizeof(field)) + ":" + to_string(sizeof(field[0]));
+		return to_string(10) + ":" + to_string(10);
 	}
 
 	void set_dir_by_str(string s)		//sets directions using a string input (ex 1a2w means player 1 pressed a and player 2 pressed w)

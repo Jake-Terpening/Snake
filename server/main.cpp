@@ -107,23 +107,29 @@ void moveResults(int clientID, string message) {
 	std::cout << "moveResult" << std::endl;
 
 	// (ex: START:playerNameInput )
-	if (messageArr[0] == "START" && players.size() == 2) {
+	if (messageArr[0] == "START") 
+		{
 
-		std::cout << "Reached START" << std::endl;
-		if (players[clientID] == "1" && messageArr[1] != "") // Set custom name. If none, default name used
-			p1Name = messageArr[1];
+			std::cout << "Reached START" << std::endl;
+			if (players[clientID] == "1" && messageArr[1] != "") // Set custom name. If none, default name used
+				p1Name = messageArr[1];
 
-		if (players[clientID] == "2" && messageArr[1] != "")
-			p2Name = messageArr[1];
-
-		ostringstream os; // START:col:row:clientSnake:p1Name:p2Name
-		os << "START:" << State.colRow() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name;
-
-		vector<int> clientIDs = server.getClientIDs();
-		for (int i = 0; i < clientIDs.size(); i++) {
-			server.wsSend(clientIDs[i], os.str());
+			if (players[clientID] == "2" && messageArr[1] != "")
+				p2Name = messageArr[1];
 		}
-	}
+		if (players.size() == 2) 
+			{
+				std::cout << "START:" << State.colRow() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name << std::endl;
+
+				ostringstream os; // START:col:row:clientSnake:p1Name:p2Name
+				os << "START:" << State.colRow() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name;
+
+				vector<int> clientIDs = server.getClientIDs();
+				for (int i = 0; i < clientIDs.size(); i++) {
+					server.wsSend(clientIDs[i], os.str());
+				}
+			}
+	
 
 	// (ex: MOVE:DIRECTION )
 	else if (messageArr[0] == "MOVE"){
