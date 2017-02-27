@@ -136,14 +136,24 @@ function connect() {
         document.body.appendChild(canvas);
         ctx.font = "16px Arial";
 
+        document.addEventListener("keydown", keyDownHandler, false);
+
         init();
         loop();
     }
 }
 
 //Get which key was pressed
-document.addEventListener("keydown", keyDownHandler, false);
-function getKeypress(e) {
+//var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
+function getKeypress() {
 	//W/UP, A/LEFT, S/DOWN, D/RIGHT
     //Here goes stuff
+    if (e.keyCode == A_KEY)
+        send("MOVE:a");
+    else if (e.keyCode == W_KEY)
+        send("MOVE:w");
+    else if (e.keyCode == D_KEY)
+        send("MOVE:d");
+    else if (e.keyCode == S_KEY)
+        send("MOVE:s");
 }

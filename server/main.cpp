@@ -81,9 +81,15 @@ int moveHandler(int clientID, string direction) {
 	std::string playerMove = players[clientID] + direction; // (ex 1a2w means player 1 pressed a and player 2 pressed w)
 	State.set_dir_by_str(playerMove);
 
+	std::cout << playerMove << std::endl;
+
 	if (State.check_collisions()) {
 		return -1;
 	}
+
+	std::cout << "UPDATE:" << State.foodLoc() << ":" << State.playerLoc(1) << ":"
+		<< State.playerLoc(2) << ":" << State.playerSco(1) << ":" << State.playerSco(2)
+		<< ":" << State.eatFood << std::endl;
 
 	ostringstream os; // STATE:foodLoc:player1Loc:player2Loc:score1:score2:FoodEaten(0/1/2)
 		os << "UPDATE:" << State.foodLoc() << ":" << State.playerLoc(1) << ":"
@@ -121,18 +127,17 @@ void moveResults(int clientID, string message) {
 			{
 				std::cout << "START:" << State.colRow() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name << std::endl;
 
-				ostringstream os; // START:col:row:clientSnake:p1Name:p2Name
-				os << "START:" << State.colRow() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name;
-
+				// START:col:row:clientSnake:p1Name:p2Name
 				vector<int> clientIDs = server.getClientIDs();
 				for (int i = 0; i < clientIDs.size(); i++) {
-					server.wsSend(clientIDs[i], os.str());
+					server.wsSend(clientIDs[i], "START:" + State.colRow() + ":" + players[i] + ":" + p1Name + ":" + p2Name);
 				}
 			}
 	
 
 	// (ex: MOVE:DIRECTION )
 	else if (messageArr[0] == "MOVE"){
+		std::cout << "Reached MOVE" << std::endl;
 		string direction = messageArr[1];
 
 		int moveUpdate = moveHandler(clientID, direction);
