@@ -89,18 +89,18 @@ function getKeypress() {
 	//W/UP, A/LEFT, S/DOWN, D/RIGHT
     //Here goes stuff
     if (e.keyCode == A_KEY || e.keyCode == KEY_LEFT)
-        send("MOVE:a");
+        send("MOVE:" + document.getElementById('playerid').value + ":a");
     else if (e.keyCode == W_KEY || e.keyCode == KEY_UP)
-        send("MOVE:w");
+        send("MOVE:" + document.getElementById('playerid').value + ":w");
     else if (e.keyCode == D_KEY || e.keyCode == KEY_RIGHT)
-        send("MOVE:d");
+        send("MOVE:" + document.getElementById('playerid').value + ":d");
     else if (e.keyCode == S_KEY || e.keyCode == KEY_DOWN)
-        send("MOVE:s");
+        send("MOVE:" + document.getElementById('playerid').value + ":s");
 }
 
 //updates server on current client state
 function update() {
-	send(getKeypress());
+	getKeypress();
 	//get message from server
 	Snake.update();
 }
