@@ -11,6 +11,8 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var SPACESIZE = 20;
 var col = 0, row = 0; // store size of board
+var grid;
+var IncMessage = "";
 
 var p1Name = "", p2Name = "";
 var clientSnake; // client's snake
@@ -77,47 +79,65 @@ function connect() {
 
     //receives message back from server to update client
     Server.bind('message', function (message) {
-        var messageArr = message.split(':'); //which ever format the message comes in
+        IncMessage = message.split(':'); //which ever format the message comes in
+    });
+}
 
-        if (messageArr[0] == "START") // START:col:row:clientSnake
+//Get which key was pressed
+//var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
+function getKeypress() {
+	//W/UP, A/LEFT, S/DOWN, D/RIGHT
+    //Here goes stuff
+    if (e.keyCode == A_KEY || e.keyCode == KEY_LEFT)
+        send("MOVE:a");
+    else if (e.keyCode == W_KEY || e.keyCode == KEY_UP)
+        send("MOVE:w");
+    else if (e.keyCode == D_KEY || e.keyCode == KEY_RIGHT)
+        send("MOVE:d");
+    else if (e.keyCode == S_KEY || e.keyCode == KEY_DOWN)
+        send("MOVE:s");
+}
+
+//updates server on current client state
+function update() {
+	send(getKeypress());
+	//get message from server
+	Snake.update();
+}
+
+function handleMessage() {
+        if (IncMessage[0] == "START") // START:col:row:clientSnake
         {
-            col = messageArr[1];
-            row = messageArr[2];
-            clientSnake = messageArr[3];
-            p1Name = messageArr[4];
-            p2name = messageArr[5];
+            col = IncMessage[1];
+            row = IncMessage[2];
+            clientSnake = IncMessage[3];
+            p1Name = IncMessage[4];
+            p2name = IncMessage[5];
             main();
         }
 
-        else if (messageArr[0] == "UPDATE") // STATE:foodLoc:player1Loc:player2Loc:score1:score2:FoodEaten(0/1/2)
+        else if (IncMessage[0] == "UPDATE") // STATE:foodLoc:player1Loc:player2Loc:score1:score2:FoodEaten(0/1/2)
         {
-
+		//grid(thing) = foodLoc;
+		//etc.
         }
-    });
+}
 
-    //updates server on current client state
-    function update() {
-	    send(getKeypress());
-    }
-
-    //yup
-    function draw() {
+//yup
+function draw() {
         //visual goodness
-
-        ctx.fillStyle = "#000";
+	ctx.fillStyle = "#000";
         ctx.fillText(p1Name + score1, 5, 20);
-        ctx.fillText(p2name + score2, 5, 40);
+	ctx.fillText(p2name + score2, 5, 40);
+}
 
-    }
-
-    function loop() {
+function loop() {
         update();
         draw();
-
         window.requestAnimationFrame(loop);
-    }
+}
 
-    function init() {
+function init() {
         // empty board marked with 0
         for (var x = 0; x < col; x++)
         {
@@ -126,9 +146,9 @@ function connect() {
                 grid[x][y] = 0;
             }
         }
-    }
+}
 
-    function main() {
+function main() {
         canvas = document.createElement("canvas");
         canvas.width = col * 20;
         canvas.height = row * 20;
@@ -139,21 +159,5 @@ function connect() {
         document.addEventListener("keydown", keyDownHandler, false);
 
         init();
-        loop();
-    }
-}
-
-//Get which key was pressed
-//var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
-function getKeypress() {
-	//W/UP, A/LEFT, S/DOWN, D/RIGHT
-    //Here goes stuff
-    if (e.keyCode == A_KEY)
-        send("MOVE:a");
-    else if (e.keyCode == W_KEY)
-        send("MOVE:w");
-    else if (e.keyCode == D_KEY)
-        send("MOVE:d");
-    else if (e.keyCode == S_KEY)
-        send("MOVE:s");
+	loop();
 }
