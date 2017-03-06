@@ -105,16 +105,16 @@ function getKeypress()
 	//W/UP, A/LEFT, S/DOWN, D/RIGHT
 
     if (e.keyCode == A_KEY || e.keyCode == KEY_LEFT)
-        send("MOVE:" + document.getElementById('playerid').value + ":a");
+        send("MOVE:a");
 
     else if (e.keyCode == W_KEY || e.keyCode == KEY_UP)
-        send("MOVE:" + document.getElementById('playerid').value + ":w");
+        send("MOVE:w");
 
     else if (e.keyCode == D_KEY || e.keyCode == KEY_RIGHT)
-        send("MOVE:" + document.getElementById('playerid').value + ":d");
+        send("MOVE:d");
 
     else if (e.keyCode == S_KEY || e.keyCode == KEY_DOWN)
-        send("MOVE:" + document.getElementById('playerid').value + ":s");
+        send("MOVE:s");
 }
 
 //updates server on current client state

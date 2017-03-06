@@ -148,7 +148,7 @@ void moveResults(int clientID, string message) {
 	// (ex: MOVE:DIRECTION )
 	else if (messageArr[0] == "MOVE"){
 		std::cout << "Reached MOVE" << std::endl;
-		string direction = messageArr[2];
+		string direction = messageArr[1];
 
 		int moveUpdate = moveHandler(clientID, direction);
 
