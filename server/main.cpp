@@ -108,22 +108,31 @@ int moveHandler(int clientID, string direction) {
 void moveResults(int clientID, string message) {
 	//if needs SETUP and has 2 players, sends clients the ok for new game
 	//else should call on moveHandler to update game state and return update to client
+	std::cout << "In moveResults --> " << message << std::endl;
 	vector<string> messageArr = split(message, ':');
-
-	std::cout << "moveResult" << std::endl;
-
 	// (ex: START:playerNameInput )
 	if (messageArr[0] == "START") 
 		{
 
 			std::cout << "Reached START" << std::endl;
-			if (players[clientID] == "1" && messageArr[1] != "") // Set custom name. If none, default name used
-				p1Name = messageArr[1];
+			if (players[clientID] == "1") // Set custom name. If none, default name used
+			{
+				if (messageArr[1] != " ")
+				{
+					std::cout << "p1Name changed." << std::endl;
+					p1Name = messageArr[1];
+				}
+			}
 
-			if (players[clientID] == "2" && messageArr[1] != "")
-				p2Name = messageArr[1];
-		}
-		if (players.size() == 2) 
+			if (players[clientID] == "2" && messageArr[1] != " ")
+			{
+				if (messageArr[1] != " ")
+				{
+					std::cout << "p2Name changed." << std::endl;
+					p1Name = messageArr[1];
+				}
+			}
+			if (players.size() == 2)
 			{
 				std::cout << "START:" << State.colRow() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name << std::endl;
 
@@ -133,12 +142,13 @@ void moveResults(int clientID, string message) {
 					server.wsSend(clientIDs[i], "START:" + State.colRow() + ":" + players[i] + ":" + p1Name + ":" + p2Name);
 				}
 			}
+		}
 	
 
 	// (ex: MOVE:DIRECTION )
 	else if (messageArr[0] == "MOVE"){
 		std::cout << "Reached MOVE" << std::endl;
-		string direction = messageArr[1];
+		string direction = messageArr[2];
 
 		int moveUpdate = moveHandler(clientID, direction);
 

@@ -1,8 +1,8 @@
 ﻿  main.cpp
 c:\users\whitney\documents\github\snake\server\main.cpp(100): warning C4018: '<': signed/unsigned mismatch
-c:\users\whitney\documents\github\snake\server\main.cpp(134): warning C4018: '<': signed/unsigned mismatch
-c:\users\whitney\documents\github\snake\server\main.cpp(152): warning C4018: '<': signed/unsigned mismatch
-c:\users\whitney\documents\github\snake\server\main.cpp(162): warning C4551: function call missing argument list
+c:\users\whitney\documents\github\snake\server\main.cpp(141): warning C4018: '<': signed/unsigned mismatch
+c:\users\whitney\documents\github\snake\server\main.cpp(160): warning C4018: '<': signed/unsigned mismatch
+c:\users\whitney\documents\github\snake\server\main.cpp(170): warning C4551: function call missing argument list
 c:\users\whitney\documents\github\snake\server\gamestate.h(217): warning C4715: 'gamestate::playerSco': not all control paths return a value
 c:\users\whitney\documents\github\snake\server\gamestate.h(209): warning C4715: 'gamestate::playerLoc': not all control paths return a value
   167SnakeServer.vcxproj -> C:\Users\Whitney\Documents\GitHub\Snake\server\167SnakeServer\Debug\167SnakeServer.exe
