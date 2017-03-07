@@ -1,0 +1,30 @@
+﻿  RoboCatClientPCH.cpp
+  YarnClient.cpp
+  WindowManager.cpp
+  TextureManager.cpp
+  Texture.cpp
+  SpriteComponent.cpp
+  RoboCatClient.cpp
+  ReplicationManagerClient.cpp
+  RenderManager.cpp
+  NetworkManagerClient.cpp
+  MouseClient.cpp
+  InputManager.cpp
+  HUD.cpp
+  GraphicsDriver.cpp
+  ClientMain.cpp
+  Client.cpp
+  Generating Code...
+  RoboCatClient.vcxproj -> C:\RoboCatAction\Debug\RoboCatClient.exe
+  RoboCatClient.vcxproj -> C:\RoboCatAction\Debug\RoboCatClient.pdb (Full PDB)
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\libfreetype-6.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\libogg-0.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\libpng16-16.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\libvorbis-0.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\libvorbisfile-3.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\SDL2.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\SDL2_image.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\SDL2_mixer.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\SDL2_ttf.dll
+  C:\RoboCatAction\RoboCatClient\\..\SDL\lib\win\x86\zlib1.dll
+  10 File(s) copied
