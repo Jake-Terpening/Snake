@@ -10,7 +10,7 @@ var Server;
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var SPACESIZE = 20;
-var col = 24, row = 24; // store size of board
+var col = 10, row = 10; // store size of board
 
 var grid = new Array(row);
 for (var i = 0; i < row; ++i)
