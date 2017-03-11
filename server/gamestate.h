@@ -265,10 +265,7 @@ public:
 		{
 			str << "X";								//bottom border
 		}
-<<<<<<< HEAD
 		return str.str();
-=======
-		return str;
->>>>>>> origin/master
+
 	}
 };

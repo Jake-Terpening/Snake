@@ -90,7 +90,7 @@ int moveHandler(int clientID, string direction) {
 	std::cout << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2)
 		<< ":" << State.eatFood << std::endl;
 
-	ostringstream os; // STATE:GameBoard:score1:score2:FoodEaten(0/1/2)
+	ostringstream os; // UPDATE:GameBoard:score1:score2:FoodEaten(0/1/2)
 		os << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2)
 		<< ":" << State.eatFood;
 
@@ -115,19 +115,19 @@ void moveResults(int clientID, string message) {
 			std::cout << "Reached START" << std::endl;
 			if (players[clientID] == "1") // Set custom name. If none, default name used
 			{
-				if (messageArr[1] != " ")
+				if (messageArr[1] != "")
 				{
 					std::cout << "p1Name changed." << std::endl;
 					p1Name = messageArr[1];
 				}
 			}
 
-			if (players[clientID] == "2" && messageArr[1] != " ")
+			if (players[clientID] == "2")
 			{
-				if (messageArr[1] != " ")
+				if (messageArr[1] != "")
 				{
 					std::cout << "p2Name changed." << std::endl;
-					p1Name = messageArr[1];
+					p2Name = messageArr[1];
 				}
 			}
 			if (players.size() == 2)
@@ -140,6 +140,7 @@ void moveResults(int clientID, string message) {
 					server.wsSend(clientIDs[i], "START:" + State.colRow() + ":" + players[i] + ":" + p1Name + ":" + p2Name);
 				}
 			}
+			std::cout << "End START " << std::endl;
 		}
 	
 

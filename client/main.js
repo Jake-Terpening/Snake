@@ -82,7 +82,7 @@ function connect()
 
     	Server.bind('open', function ()
 	{
-        	send("START:" + document.getElementById('playerid').value);
+        	send("START:" + document.getElementById('playerid').value + ":DEFAULT");
         	document.getElementById("cntBtn").disabled = true;
     	});
 
@@ -94,7 +94,38 @@ function connect()
     //receives message back from server to update client
     	Server.bind('message', function (message)
 	{
-        	IncMessage = message.split(':'); //which ever format the message comes in
+    	    IncMessage = message.split(':'); //which ever format the message comes in
+
+    	    if (IncMessage[0] == "START") // START:col:row:clientSnake
+    	    {
+    	        col = IncMessage[1];
+    	        row = IncMessage[2];
+    	        clientSnake = IncMessage[3];
+    	        p1Name = IncMessage[4];
+    	        p2name = IncMessage[5];
+    	        main();
+    	    }
+
+    	    else if (IncMessage[0] == "UPDATE") // UPDATE:GameBoard:score1:score2:FoodEaten(0/1/2)
+    	    {
+    	        grid[IncMessage[1]][IncMessage[2]] = 3;
+    	        grid[IncMessage[3]][IncMessage[4]] = 1;
+    	        grid[IncMessage[5]][IncMessage[6]] = 2;
+    	        score1 = IncMessage[7];
+    	        score2 = IncMessage[8];
+    	        if (IncMessage[9] == 1) {
+    	            clientSnake.grow();
+    	            client2Snake.shed();
+    	        }
+    	        if (IncMessage[9] == 2) {
+    	            client2Snake.grow(); //or something
+    	            clientSnake.shed();
+    	        }
+    	        else {
+    	            clientSnake.shed();
+    	            client2Snake.shed();
+    	        }
+    	    }
     	});
 }
 
@@ -125,7 +156,7 @@ function update()
 	Snake.update();
 }
 
-function handleMessage()
+function handleMessage() // Not necessary
 {
         if (IncMessage[0] == "START") // START:col:row:clientSnake
         {
