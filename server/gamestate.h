@@ -265,5 +265,6 @@ public:
 		{
 			str << "X";								//bottom border
 		}
+		return str;
 	}
 };
