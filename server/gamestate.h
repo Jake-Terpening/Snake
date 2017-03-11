@@ -265,5 +265,6 @@ public:
 		{
 			str << "X";
 		}
+		return str.str();
 	}
 };

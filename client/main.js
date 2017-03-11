@@ -264,5 +264,5 @@ function main()
         document.addEventListener("keydown", keyDownHandler, false);
 
         init();
-	loop();
+	    loop();
 }

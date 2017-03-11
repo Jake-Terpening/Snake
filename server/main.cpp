@@ -87,13 +87,11 @@ int moveHandler(int clientID, string direction) {
 		return -1;
 	}
 
-	std::cout << "UPDATE:" << State.foodLoc() << ":" << State.playerLoc(1) << ":"
-		<< State.playerLoc(2) << ":" << State.playerSco(1) << ":" << State.playerSco(2)
+	std::cout << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2)
 		<< ":" << State.eatFood << std::endl;
 
-	ostringstream os; // STATE:foodLoc:player1Loc:player2Loc:score1:score2:FoodEaten(0/1/2)
-		os << "UPDATE:" << State.foodLoc() << ":" << State.playerLoc(1) << ":"
-		<< State.playerLoc(2) << ":" << State.playerSco(1) << ":" << State.playerSco(2)
+	ostringstream os; // STATE:GameBoard:score1:score2:FoodEaten(0/1/2)
+		os << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2)
 		<< ":" << State.eatFood;
 
 	vector<int> clientIDs = server.getClientIDs();
