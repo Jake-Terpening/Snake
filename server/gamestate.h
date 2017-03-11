@@ -244,26 +244,26 @@ public:
 
 
 
-	string state_str()					//returns a string representing the state for main to read
+	string state_str()					//returns a string representing the state for main to read (X=border, 0=empty, 1=player1, 2=player2, 3=food, -=newline)
 	{
 		ostringstream str;
-		for (int i = 0; i < 12; ++i)
+		for (int i = 0; i < 12; ++i)	//Top border
 		{
-			str << "_";
+			str << "X";	
 		}
 		str << "-";
 		for (int rows = 0; rows < 10; ++rows)
 		{
-			str << "X";
+			str << "X";								//left border
 			for (int cols = 0; cols < 10; ++cols)
 			{
-				str << field[rows][cols];
+				str << field[rows][cols];			//field
 			}
-			str << "X-";
+			str << "X-";							//right border
 		}
 		for (int i = 0; i < 12; ++i)
 		{
-			str << "X";
+			str << "X";								//bottom border
 		}
 	}
 };
