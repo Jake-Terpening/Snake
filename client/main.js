@@ -190,6 +190,68 @@ function init()
         }
 }
 
+
+
+function draw_by_str(state_str)
+{
+    var c_x=0;        //current x-pos
+    var c_y=0;        //current y-pos
+    for (var i = 0; i < state_str.length; i++)      //iterates through the state string (created in gamestate by state_str())
+    {
+        var c =state_str.charAt(i);             
+        context.beginPath();
+        context.rect(c_x, c_y, c_x + 20, c_y + 20)
+
+        //border
+        if(c == "X")
+        {
+            context.fillStyle = "black";        
+            context.fill();
+            c_x += 20;                          //go to next tile
+        }
+
+        //new row
+        if(c== "-")                            
+        {
+            C_x = 0; 
+            c_y += 20;
+        }
+
+        //empty space
+        if(c=="0")
+        {
+            context.fillStyle = "green";
+            context.fill();
+            c_x += 20;                          //go to next tile
+        }
+
+        //contains player 1
+        if (c == "1") {
+            context.fillStyle = "red";
+            context.fill();
+            c_x += 20;                          //go to next tile
+        }
+
+        //contains player 2
+        if (c == "2") {
+            context.fillStyle = "blue";
+            context.fill();
+            c_x += 20;                          //go to next tile
+        }
+
+        //contains food
+        if (c == "3") {
+            context.fillStyle = "yellow";
+            context.fill();
+            c_x += 20;                          //go to next tile
+        }
+            
+    }
+}
+
+
+
+
 function main()
 {
         canvas = document.createElement("canvas");

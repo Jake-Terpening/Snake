@@ -241,4 +241,29 @@ public:
 		if (s.find("2s") != std::string::npos)
 			dir2 = make_pair(0, 1);
 	}
+
+
+
+	string state_str()					//returns a string representing the state for main to read
+	{
+		ostringstream str;
+		for (int i = 0; i < 12; ++i)
+		{
+			str << "_";
+		}
+		str << "-";
+		for (int rows = 0; rows < 10; ++rows)
+		{
+			str << "X";
+			for (int cols = 0; cols < 10; ++cols)
+			{
+				str << field[rows][cols];
+			}
+			str << "X-";
+		}
+		for (int i = 0; i < 12; ++i)
+		{
+			str << "X";
+		}
+	}
 };
