@@ -132,12 +132,12 @@ void moveResults(int clientID, string message) {
 			}
 			if (players.size() == 2)
 			{
-				std::cout << "START:" << State.colRow() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name << std::endl;
+				std::cout << "START:" << State.state_str() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name << std::endl;
 
 				// START:col:row:clientSnake:p1Name:p2Name
 				vector<int> clientIDs = server.getClientIDs();
 				for (int i = 0; i < clientIDs.size(); i++) {
-					server.wsSend(clientIDs[i], "START:" + State.colRow() + ":" + players[i] + ":" + p1Name + ":" + p2Name);
+					server.wsSend(clientIDs[i], "START:" + State.state_str() + ":" + players[i] + ":" + p1Name + ":" + p2Name);
 				}
 			}
 			std::cout << "End START " << std::endl;

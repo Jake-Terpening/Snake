@@ -9,7 +9,7 @@ using namespace std;
 class gamestate
 {
 private:
-	int field[24][24];		//field will be an array of arrays of ints, 0 will denote an empty space, 1 will denote a space with player 1, 2 will denote a space containing player 2, 3 will denote a space containing the food
+	int field[10][10];		//field will be an array of arrays of ints, 0 will denote an empty space, 1 will denote a space with player 1, 2 will denote a space containing player 2, 3 will denote a space containing the food
 
 	int xpos1;					//stores the x position of player1
 	int ypos1;					//stores the y position of player1

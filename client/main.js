@@ -7,10 +7,9 @@
 
 var Server;
 
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
 var SPACESIZE = 20;
 var col = 10, row = 10; // store size of board
+var state_str = "";
 
 var grid = new Array(row);
 for (var i = 0; i < row; ++i)
@@ -96,13 +95,12 @@ function connect()
 	{
     	    IncMessage = message.split(':'); //which ever format the message comes in
 
-    	    if (IncMessage[0] == "START") // START:col:row:clientSnake
+    	    if (IncMessage[0] == "START") // START:GameBoard:clientSnake:p1Name:p2Name
     	    {
-    	        col = IncMessage[1];
-    	        row = IncMessage[2];
-    	        clientSnake = IncMessage[3];
-    	        p1Name = IncMessage[4];
-    	        p2name = IncMessage[5];
+    	        state_str = IncMessage[1]
+    	        clientSnake = IncMessage[2];
+    	        p1Name = IncMessage[3];
+    	        p2name = IncMessage[4];
     	        main();
     	    }
 
@@ -205,7 +203,7 @@ function draw()
 function loop()
 {
         update();
-        draw();
+        draw_by_str(state_str);
         window.requestAnimationFrame(loop);
 }
 
@@ -288,12 +286,12 @@ function main()
         canvas = document.createElement("canvas");
         canvas.width = col * 20;
         canvas.height = row * 20;
-        ctx = canvas.getContext("2d");
+        context = canvas.getContext("2d");
         document.body.appendChild(canvas);
-        ctx.font = "16px Arial";
+        context.font = "16px Arial";
 
-        document.addEventListener("keydown", keyDownHandler, false);
-
-        init();
-	    loop();
+        document.addEventListener("keydown", getKeypress, false);
+        draw_by_str(state_str);
+        //init();
+	    //loop();
 }
