@@ -11,12 +11,6 @@ var SPACESIZE = 20;
 var col = 12, row = 12; // store size of board
 var state_str = "";
 
-var grid = new Array(row);
-for (var i = 0; i < row; ++i)
-{
-	grid[i] = new Array(col);
-}
-
 var IncMessage = "";
 
 var p1Name = "", p2Name = "";
@@ -26,38 +20,6 @@ var score1 = 0, score2 = 0;
 var KEY_LEFT = 37, KEY_UP = 38, KEY_RIGHT = 39, KEY_DOWN = 40; //keyboard [left,up,right,down]
 var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
 
-function Snake(posx, posy, dir)
-{
-	this.direction = dir,
-	this.body = [{x:posx, y:posy}],
-	this.head = this.body[0],
-
-    // it eats, it grows
-	this.grow = function (posx, posy)
-	{
-        	this.body.unshift({ x: posx, y: posy });
-        	this.head = this.body[0];
-    	}
-
-    // used when shifting snake along board, pops end bit off
-	this.shed = function ()
-	{
-        	return this._queue.pop();
-    	}
-
-    //need to complete
-	this.update = function ()
-	{
-	    	if(server.get() == "messageGrow")
-		    this.grow();
-
-		if(server.get() == "messageCollision")
-		    this.die();
-
-		if(server.get() == "messageOkDir")
-		    this.direction = keypress;
-	}
-}
 
 //distinguishes which client ID is which player
 function whichSnake(snakeID)
@@ -89,42 +51,6 @@ function connect()
 	{
         	document.getElementById("cntBtn").disabled = false;
     	});
-
-    //receives message back from server to update client
-    	Server.bind('message', function (message)
-	{
-    	    IncMessage = message.split(':'); //which ever format the message comes in
-
-    	    if (IncMessage[0] == "START") // START:GameBoard:clientSnake:p1Name:p2Name
-    	    {
-    	        state_str = IncMessage[1]
-    	        clientSnake = IncMessage[2];
-    	        p1Name = IncMessage[3];
-    	        p2name = IncMessage[4];
-    	        main();
-    	    }
-
-    	    else if (IncMessage[0] == "UPDATE") // UPDATE:GameBoard:score1:score2:FoodEaten(0/1/2)
-    	    {
-    	        grid[IncMessage[1]][IncMessage[2]] = 3;
-    	        grid[IncMessage[3]][IncMessage[4]] = 1;
-    	        grid[IncMessage[5]][IncMessage[6]] = 2;
-    	        score1 = IncMessage[7];
-    	        score2 = IncMessage[8];
-    	        if (IncMessage[9] == 1) {
-    	            clientSnake.grow();
-    	            client2Snake.shed();
-    	        }
-    	        if (IncMessage[9] == 2) {
-    	            client2Snake.grow(); //or something
-    	            clientSnake.shed();
-    	        }
-    	        else {
-    	            clientSnake.shed();
-    	            client2Snake.shed();
-    	        }
-    	    }
-    	});
 }
 
 //Get which key was pressed
@@ -151,44 +77,11 @@ function update()
 {
 	getKeypress();
 	//get message from server
-	Snake.update();
 }
 
 function handleMessage() // Not necessary
 {
-        if (IncMessage[0] == "START") // START:col:row:clientSnake
-        {
-            col = IncMessage[1];
-            row = IncMessage[2];
-            clientSnake = IncMessage[3];
-            p1Name = IncMessage[4];
-            p2name = IncMessage[5];
-            main();
-        }
-
-        else if (IncMessage[0] == "UPDATE") // STATE:foodLoc:player1Loc:player2Loc:score1:score2:FoodEaten(0/1/2)
-        {
-		grid[IncMessage[1]][IncMessage[2]] = 3;
-		grid[IncMessage[3]][IncMessage[4]] = 1;
-		grid[IncMessage[5]][IncMessage[6]] = 2;
-		score1 = IncMessage[7];
-		score2 = IncMessage[8];
-		if(IncMessage[9] == 1)
-		{
-			clientSnake.grow();
-			client2Snake.shed();
-		}
-		if(IncMessage[9] == 2)
-		{
-			client2Snake.grow(); //or something
-			clientSnake.shed();
-		}
-		else
-		{
-			clientSnake.shed();
-			client2Snake.shed();
-		}
-        }
+        main();
 }
 
 //yup
@@ -207,17 +100,6 @@ function loop()
         window.requestAnimationFrame(loop);
 }
 
-function init()
-{
-        // empty board marked with 0
-        for (var x = 0; x < col; x++)
-        {
-            for (var y = 0; y < row; y++)
-            {
-                grid[x][y] = 0;
-            }
-        }
-}
 
 
 
