@@ -165,6 +165,7 @@ void moveResults(int clientID, string message) {
 			}
 			init();
 		}
+		std::cout << messageArr[2] << std::endl;
 	}
 }
 
