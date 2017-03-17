@@ -131,14 +131,17 @@ function connect()
 //var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
 function getKeypress(key)
 {
+    var date = new Date();
+    var milliseconds = date.valueOf();
+
     if (key.keyCode == A_KEY)
-        send("MOVE:a:" + new Date());
+        send("MOVE:a:" + milliseconds);
     if (key.keyCode == W_KEY)
-        send("MOVE:w" + new Date());
+        send("MOVE:w:" + milliseconds);
     if (key.keyCode == D_KEY)
-        send("MOVE:d" + new Date());
+        send("MOVE:d:" + milliseconds);
     if (key.keyCode == S_KEY)
-        send("MOVE:s" + new Date());
+        send("MOVE:s:" + milliseconds);
 }
 
 //updates server on current client state
