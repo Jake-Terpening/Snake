@@ -298,6 +298,7 @@ function main()
 
         document.addEventListener("keydown", getKeypress, false);
         draw_by_str(state_str);
+        send("MOVE:d");
         //init();
 	    //loop();
 }

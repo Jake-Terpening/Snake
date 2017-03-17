@@ -14,11 +14,12 @@
 #include "gamestate.h"
 
 using namespace std;
-
+	
 webSocket server;
 gamestate State;
 map<int, string> players; //keeps track of which client is which snake
 std::string p1Name = "P1", p2Name = "P2";
+bool gameStarted = false;
 
 void init()		// fresh game
 {
@@ -109,6 +110,7 @@ void moveResults(int clientID, string message) {
 	std::cout << "In moveResults --> " << message << std::endl;
 	vector<string> messageArr = split(message, ':');
 	// (ex: START:playerNameInput )
+	std::cout << clientID << std::endl;
 	if (messageArr[0] == "START") 
 		{
 
@@ -139,8 +141,10 @@ void moveResults(int clientID, string message) {
 				for (int i = 0; i < clientIDs.size(); i++) {
 					server.wsSend(clientIDs[i], "START:" + State.state_str() + ":" + players[i] + ":" + p1Name + ":" + p2Name);
 				}
+				gameStarted = true;
 			}
 			std::cout << "End START " << std::endl;
+			std::cout << clientID << std::endl;
 		}
 	
 
@@ -165,8 +169,15 @@ void moveResults(int clientID, string message) {
 }
 
 /* called once per select() loop */
-void periodicHandler() {
-	moveResults; // How to call this?
+void periodicHandler()
+{
+	if (gameStarted) {
+	std::cout << State.state_str() << std::endl;
+	Sleep(1000);
+	State.update();
+	server.wsSend(0, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
+}
+	//moveHandler();
 }
 
 int main(int argc, char *argv[]) {
@@ -179,7 +190,7 @@ int main(int argc, char *argv[]) {
 	server.setOpenHandler(openHandler);
 	server.setCloseHandler(closeHandler);
 	server.setMessageHandler(moveResults);
-	//server.setPeriodicHandler(periodicHandler); // to periodically check state
+	server.setPeriodicHandler(periodicHandler); // to periodically check state
 
 	/* start the chatroom server, listen to ip '127.0.0.1' and port '8000' */
 	server.startServer(port);
