@@ -131,6 +131,7 @@ function connect()
 //var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
 function getKeypress()
 {
+    send("MOVE:a");
 	//W/UP, A/LEFT, S/DOWN, D/RIGHT
 
     if (e.keyCode == A_KEY || e.keyCode == KEY_LEFT)
@@ -285,6 +286,20 @@ function draw_by_str(state_str)
 }
 
 
+function keyListener1(event) {
+    send("MOVE:a");
+}
+function keyListener2(event) 
+{
+    send("MOVE:d");
+}
+
+
+var el = window;
+
+el.addEventListener('click', keyListener1, false);
+el.addEventListener('keydown', keyListener2, false);
+
 
 
 function main()
@@ -296,9 +311,11 @@ function main()
         document.body.appendChild(canvas);
         context.font = "16px Arial";
 
+
+        
         document.addEventListener("keydown", getKeypress, false);
+
         draw_by_str(state_str);
-        send("MOVE:d");
         //init();
 	    //loop();
 }

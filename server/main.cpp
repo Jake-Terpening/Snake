@@ -176,6 +176,7 @@ void periodicHandler()
 	Sleep(1000);
 	State.update();
 	server.wsSend(0, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
+	server.wsSend(1, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
 }
 	//moveHandler();
 }
