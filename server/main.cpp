@@ -173,7 +173,7 @@ void periodicHandler()
 {
 	if (gameStarted) {
 	std::cout << State.state_str() << std::endl;
-	Sleep(1000);
+	Sleep(5000);
 	State.update();
 	server.wsSend(0, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
 	server.wsSend(1, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);

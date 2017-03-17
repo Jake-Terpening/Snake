@@ -129,22 +129,16 @@ function connect()
 
 //Get which key was pressed
 //var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
-function getKeypress()
+function getKeypress(key)
 {
-    send("MOVE:a");
-	//W/UP, A/LEFT, S/DOWN, D/RIGHT
-
-    if (e.keyCode == A_KEY || e.keyCode == KEY_LEFT)
-        send("MOVE:a");
-
-    else if (e.keyCode == W_KEY || e.keyCode == KEY_UP)
-        send("MOVE:w");
-
-    else if (e.keyCode == D_KEY || e.keyCode == KEY_RIGHT)
-        send("MOVE:d");
-
-    else if (e.keyCode == S_KEY || e.keyCode == KEY_DOWN)
-        send("MOVE:s");
+    if(key.keyCode == A_KEY)
+        send("MOVE:a")
+    if (key.keyCode == W_KEY)
+        send("MOVE:w")
+    if (key.keyCode == D_KEY)
+        send("MOVE:d")
+    if (key.keyCode == S_KEY)
+        send("MOVE:s")
 }
 
 //updates server on current client state
@@ -286,22 +280,6 @@ function draw_by_str(state_str)
 }
 
 
-function keyListener1(event) {
-    send("MOVE:a");
-}
-function keyListener2(event) 
-{
-    send("MOVE:d");
-}
-
-
-var el = window;
-
-el.addEventListener('click', keyListener1, false);
-el.addEventListener('keydown', keyListener2, false);
-
-
-
 function main()
 {
         canvas = document.createElement("canvas");
@@ -313,7 +291,7 @@ function main()
 
 
         
-        document.addEventListener("keydown", getKeypress, false);
+       document.addEventListener("keydown", getKeypress, false);
 
         draw_by_str(state_str);
         //init();
