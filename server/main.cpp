@@ -12,9 +12,8 @@
 #include <time.h>
 #include "websocket.h"
 #include "gamestate.h"
-#include <chrono>
 
-using namespace std::chrono;
+using namespace std;
 	
 webSocket server;
 gamestate State;
@@ -166,13 +165,7 @@ void moveResults(int clientID, string message) {
 			}
 			init();
 		}
-
-		milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-		long long num_ms = ms.count();
-		std::cout << "message sent: " << messageArr[2] << std::endl;
-		std::cout << "message recieved: " << num_ms << std::endl;
-		long long offset = num_ms - std::stoll(messageArr[2]);
-		std::cout << "offset: " << offset << std::endl;
+		std::cout << messageArr[2] << std::endl;
 	}
 }
 
