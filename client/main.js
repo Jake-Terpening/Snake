@@ -23,7 +23,9 @@ var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
 //sends message from client to update server
 function send(text)
 {
-	Server.send('message', text);           
+    setTimeout(function(){
+        Server.send('message', text);       
+    }, Math.floor((Math.random() * 390) + 10))
 }
 
 function connect()

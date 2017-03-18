@@ -146,8 +146,6 @@ void moveResults(int clientID, string message)
 
 		std::cout << "message sent: " << messageArr[2] << std::endl;
 
-		int receive_delay = rand() % 390 + 10;
-		Sleep(receive_delay);
 		milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 		long long num_ms = ms.count();
 		
