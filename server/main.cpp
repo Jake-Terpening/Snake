@@ -153,11 +153,19 @@ void periodicHandler()
 		init();
 	if (gameStarted) 
 	{
-	// std::cout << State.state_str() << std::endl;
-	State.update();		
-	server.wsSend(0, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
-	server.wsSend(1, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
-	Sleep(5000);
+		int random_delay1 = rand() % 390 + 10;
+		int random_delay2 = rand() % 390 + 10;
+		random_delay2 = abs(random_delay1 - random_delay2);
+		int first_to_recieve = rand() % 2;
+		int second_to_recieve = 1 - first_to_recieve;
+		// std::cout << State.state_str() << std::endl;
+		State.update();
+
+		Sleep(random_delay1);
+		server.wsSend(first_to_recieve, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
+		Sleep(random_delay2);
+		server.wsSend(second_to_recieve, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
+		Sleep(1000);
 	}
 	
 	
