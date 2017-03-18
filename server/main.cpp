@@ -23,6 +23,10 @@ std::string p1Name = "P1", p2Name = "P2";
 bool gameStarted = false;
 std::string * inputs = new string[2];
 
+int update_delay = 1000;
+long long last_update = 0;
+
+
 void init()	// fresh game
 {
 	State = gamestate();
@@ -152,6 +156,11 @@ void moveResults(int clientID, string message)
 		std::cout << "message recieved: " << num_ms << std::endl;
 		long long offset = num_ms - std::stoll(messageArr[2]);
 		std::cout << "offset: " << offset << std::endl;
+		if (num_ms < last_update)
+		{
+			State.revert();
+			State.update();
+		}
 	}
 }
 
@@ -165,6 +174,7 @@ void periodicHandler()
 		std::string update_str(inputs[0] + inputs[1]);
 		State.set_dir_by_str(update_str);
 
+		
 
 		int random_delay1 = rand() % 390 + 10;
 		int random_delay2 = rand() % 390 + 10;
@@ -173,12 +183,14 @@ void periodicHandler()
 		int second_to_recieve = 1 - first_to_recieve;
 		// std::cout << State.state_str() << std::endl;
 		State.update();
+		milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+		last_update = ms.count();
 
 		Sleep(random_delay1);
 		server.wsSend(first_to_recieve, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
 		Sleep(random_delay2);
 		server.wsSend(second_to_recieve, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
-		Sleep(1000);
+		Sleep(update_delay);
 	}
 	
 	
