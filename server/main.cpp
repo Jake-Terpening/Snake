@@ -149,8 +149,8 @@ void moveResults(int clientID, string message)
 /* called once per select() loop */
 void periodicHandler()
 {
-	if (State.check_collisions())
-		init();
+	/*if (State.check_collisions())
+		init();*/
 	if (gameStarted) 
 	{
 		int random_delay1 = rand() % 390 + 10;

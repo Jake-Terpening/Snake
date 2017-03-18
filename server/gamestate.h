@@ -124,6 +124,10 @@ public:
 
 	void update()					//updates each frame
 	{
+		if (game_end)
+		{
+			return;
+		}
 		check_collisions();
 		std::cout << "game_end: " << game_end << std::endl;
 		if (check_food() == 1)
