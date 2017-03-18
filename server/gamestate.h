@@ -152,6 +152,7 @@ public:
 		for (int i = score2; i > 1; --i)		//update player2 tail
 		{
 			tail2[i] = tail2[i - 1];
+			cout << tail2[i].first << " " << tail2[i].second << endl;
 		}
 		tail2[0] = make_pair(xpos2, ypos2);
 

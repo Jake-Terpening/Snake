@@ -53,7 +53,6 @@ function connect()
     	        clientSnake = IncMessage[2];
     	        p1Name = IncMessage[3];
     	        p2Name = IncMessage[4];
-    	        console.log(p1Name, p2Name);
     	        main();
     	    }
 
@@ -112,7 +111,6 @@ function draw_by_str(state_str)
     for (var i = 0; i < state_str.length; i++)      //iterates through the state string (created in gamestate by state_str())
     {
         var c = state_str.charAt(i);
-        console.log(c);
         context.beginPath();
         context.rect(c_x, c_y, c_w, c_h) // (top-right x coor of rect, top-right y, pixel width, pixel height)
 
