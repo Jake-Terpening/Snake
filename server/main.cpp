@@ -21,10 +21,13 @@ gamestate State;
 map<int, string> players; //keeps track of which client is which snake
 std::string p1Name = "P1", p2Name = "P2";
 bool gameStarted = false;
+std::string * inputs = new string[2];
 
 void init()	// fresh game
 {
 	State = gamestate();
+	inputs[0] = "00";
+	inputs[1] = "00";
 }
 
 /* called when a client connects */
@@ -84,16 +87,20 @@ void moveHandler(int clientID, string direction)
 	//given direction of client, apply game logic
 
 	std::string playerMove = players[clientID] + direction; // (ex 1a2w means player 1 pressed a and player 2 pressed w)
-	State.set_dir_by_str(playerMove);
+	//State.set_dir_by_str(playerMove);						//this will be called later
+	if (players[clientID] == "1")
+		inputs[0] = playerMove;
+	else
+		inputs[1] = playerMove;
 
 	ostringstream os; // UPDATE:GameBoard:score1:score2
 		os << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2);
 
-	vector<int> clientIDs = server.getClientIDs();
+	/*vector<int> clientIDs = server.getClientIDs();		//I dont think we need this
 	for (int i = 0; i < clientIDs.size(); i++) 
 	{
 		server.wsSend(clientIDs[i], os.str());
-	}
+	}*/
 }
 
 
@@ -137,9 +144,13 @@ void moveResults(int clientID, string message)
 
 		moveHandler(clientID, direction);
 
+		std::cout << "message sent: " << messageArr[2] << std::endl;
+
+		int receive_delay = rand() % 390 + 10;
+		Sleep(receive_delay);
 		milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 		long long num_ms = ms.count();
-		std::cout << "message sent: " << messageArr[2] << std::endl;
+		
 		std::cout << "message recieved: " << num_ms << std::endl;
 		long long offset = num_ms - std::stoll(messageArr[2]);
 		std::cout << "offset: " << offset << std::endl;
@@ -153,6 +164,10 @@ void periodicHandler()
 		init();*/
 	if (gameStarted) 
 	{
+		std::string update_str(inputs[0] + inputs[1]);
+		State.set_dir_by_str(update_str);
+
+
 		int random_delay1 = rand() % 390 + 10;
 		int random_delay2 = rand() % 390 + 10;
 		random_delay2 = abs(random_delay1 - random_delay2);
