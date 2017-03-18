@@ -150,7 +150,7 @@ void moveResults(int clientID, string message)
 
 		if (moveUpdate == -1)
 		{
-			init();
+			//init();
 		}
 
 		milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());

@@ -93,6 +93,7 @@ public:
 		{
 			cout << "\n**heads collided**\n";
 			game_end = true;
+			std::cout << "***Game End should be true: " << game_end << "\n\n";
 			return true;
 		}
 
@@ -100,6 +101,7 @@ public:
 		{
 			cout << "\n**snakes collided**\n";
 			game_end = true;
+			std::cout << "***Game End should be true: " << game_end << "\n\n";
 			return true;
 		}
 		return false;
