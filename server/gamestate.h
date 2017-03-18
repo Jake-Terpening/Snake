@@ -26,6 +26,8 @@ private:
 	int xpos3;		//stores the x position of the food
 	int ypos3;		//stores the y position of the food
 
+	bool game_end = false;
+
 public:
 
 	std::string eatFood = "0";
@@ -69,6 +71,7 @@ public:
 
 	bool check_collisions()			//checks if a game ending collision will occur on the next frame
 	{
+		std::cout << "collisions being checked\n";
 		int newx1 = xpos1 + dir1.first;
 		int newy1 = ypos1 + dir1.second;
 		int newx2 = xpos2 + dir2.first;
@@ -77,22 +80,26 @@ public:
 		if (newx1 < 0 || newx1 > 9 || newy1 < 0 || newy1 > 9)
 		{
 			cout << "\n**p1 exceeded bounds**\n";
+			game_end = true;
 			return true;
 		} 
 		if(newx2 < 0 || newx2 > 9 || newy2 < 0 || newy2 > 9)
 		{
 			cout << "\n**p2 exceeded bounds**\n";
+			game_end = true;
 			return true;
 		}
 		if (newy1 == newy2 && newx1 == newx2)
 		{
 			cout << "\n**heads collided**\n";
+			game_end = true;
 			return true;
 		}
 
 		if (field[newy1][newx1] == 1 || field[newy1][newx1] == 2 || field[newy2][newx2] == 1 || field[newy2][newx2] == 2)
 		{
 			cout << "\n**snakes collided**\n";
+			game_end = true;
 			return true;
 		}
 		return false;
@@ -120,6 +127,8 @@ public:
 
 	void update()					//updates each frame
 	{
+		check_collisions();
+		std::cout << "game_end: " << game_end << std::endl;
 		if (check_food() == 1)
 		{
 			score1++;
@@ -246,26 +255,41 @@ public:
 
 	string state_str()					//returns a string representing the state for main to read (X=border, 0=empty, 1=player1, 2=player2, 3=food, -=newline)
 	{
-		ostringstream str;
-		for (int i = 0; i < 12; ++i)	//Top border
-		{
-			str << "X";	
-		}
-		str << "-";
-		for (int rows = 0; rows < 10; ++rows)
-		{
-			str << "X";								//left border
-			for (int cols = 0; cols < 10; ++cols)
-			{
-				str << field[rows][cols];			//field
-			}
-			str << "X-";							//right border
-		}
-		for (int i = 0; i < 12; ++i)
-		{
-			str << "X";								//bottom border
-		}
-		return str.str();
 
+		ostringstream str;
+		if (!game_end)
+		{
+			for (int i = 0; i < 12; ++i)	//Top border
+			{
+				str << "X";
+			}
+			str << "-";
+			for (int rows = 0; rows < 10; ++rows)
+			{
+				str << "X";								//left border
+				for (int cols = 0; cols < 10; ++cols)
+				{
+					str << field[rows][cols];			//field
+				}
+				str << "X-";							//right border
+			}
+			for (int i = 0; i < 12; ++i)
+			{
+				str << "X";								//bottom border
+			}
+		}
+		else
+		{
+			for (int rows = 0; rows < 12; ++rows)		//if game has ended should print a black canvas
+			{
+				str << "X";
+				for (int cols = 0; cols < 12; ++cols)
+				{
+					str << "X";
+				}
+				str << "-";
+			}
+		}
+		return str.str();		
 	}
 };
