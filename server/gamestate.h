@@ -30,8 +30,6 @@ private:
 
 public:
 
-	std::string eatFood = "0";
-
 	gamestate() 			//default constructor creates a 10x10 board
 	{
 		xpos1 = 1;				//player 1 starts 1 space in from the upper right corner facing down
@@ -115,15 +113,12 @@ public:
 		int newy2 = ypos2 + dir2.second;
 		if (field[newy1][newx1] == 3) 
 		{
-			eatFood = "1";
 			return 1;
 		}
 		if (field[newy2][newx2] == 3) 
 		{
-			eatFood = "2";
 			return 2;
 		}
-		eatFood = "0";
 		return 0;
 	}
 
@@ -149,7 +144,7 @@ public:
 		}
 		tail1[0] = make_pair(xpos1, ypos1);
 
-		for (int i = score2; i > 1; --i)		//update player2 tail
+		for (int i = score2; i > 0; --i)		//update player2 tail
 		{
 			tail2[i] = tail2[i - 1];
 			cout << tail2[i].first << " " << tail2[i].second << endl;
