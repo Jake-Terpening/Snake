@@ -10,6 +10,9 @@ class gamestate
 {
 private:
 	int field[10][10];		//field will be an array of arrays of ints, 0 will denote an empty space, 1 will denote a space with player 1, 2 will denote a space containing player 2, 3 will denote a space containing the food
+	
+	int previous[10][10];	//tracks the previous state for latency mitigation purposes
+	int food_eaten = 0;		//
 
 	int xpos1;					//stores the x position of player1
 	int ypos1;					//stores the y position of player1
@@ -53,6 +56,12 @@ public:
 
 		field[ypos1][xpos1] = 1;
 		field[ypos2][xpos2] = 2;
+
+		for (int y = 0; y < 10; ++y)
+		{
+			for (int x = 0; x < 10; x++)
+				previous[y][x] = field[y][x];
+		}
 		set_food();
 	}
 
@@ -124,6 +133,12 @@ public:
 
 	void update()					//updates each frame
 	{
+		for (int y = 0; y < 10; ++y)
+		{
+			for (int x = 0; x < 10; x++)
+				previous[y][x] = field[y][x];
+		}
+
 		if (game_end)
 		{
 			return;
@@ -133,12 +148,18 @@ public:
 		if (check_food() == 1)
 		{
 			score1++;
+			food_eaten = 1;
 			set_food();
 		}
 		else if (check_food() == 2)
 		{
 			score2++;
+			food_eaten = 2;
 			set_food();
+		}
+		else
+		{
+			food_eaten = 0;
 		}
 
 		for (int i = score1; i > 0; --i)		//update player1 tail
@@ -179,6 +200,23 @@ public:
 		for (int i = 0; i < score2; ++i)
 		{
 			field[tail2[i].second][tail2[i].first] = 2;
+		}
+	}
+
+	void revert()
+	{
+		for (int y = 0; y < 10; ++y)
+		{
+			for (int x = 0; x < 10; x++)
+				field[y][x] = previous[y][x];
+		}
+		if (food_eaten == 1)
+		{
+			score1--;
+		}
+		if (food_eaten == 2)
+		{
+			score2--;
 		}
 	}
 
