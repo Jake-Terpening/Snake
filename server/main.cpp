@@ -21,7 +21,7 @@ map<int, string> players; //keeps track of which client is which snake
 std::string p1Name = "P1", p2Name = "P2";
 bool gameStarted = false;
 
-void init()		// fresh game
+void init()	// fresh game
 {
 	State = gamestate();
 }
@@ -32,15 +32,16 @@ void openHandler(int clientID) {
 
 	std::cout << clientID << " joined." << std::endl;
 
-	if (players.empty()) {
+	if (players.empty())
+	{
 		players[clientID] = "1";
-		std::cout << "Players mapped 1" << std::endl;
 	}
-	else if (players.size() == 1) {
+	else if (players.size() == 1)
+	{
 		players[clientID] = "2";
-		std::cout << "Players mapped 2" << std::endl;
 	}
-	else {
+	else
+	{
 		server.wsClose(clientID);
 	}
 }
@@ -63,7 +64,8 @@ vector<string> split(string message, char delimiter) {
 	stringstream stream(message);
 	string token;
 
-	while (getline(stream, token, delimiter)) {
+	while (getline(stream, token, delimiter))
+	{
 		result.push_back(token);
 	}
 
@@ -71,12 +73,13 @@ vector<string> split(string message, char delimiter) {
 }
 
 /* called when a client sends a message to the server */
-void messageHandler(int clientID, string message) {
+void messageHandler(int clientID, string message)
+{
 	vector<string> messageArr = split(message, ':');
-	std::cout << "messageHandler" << std::endl;
 }
 
-int moveHandler(int clientID, string direction) {
+int moveHandler(int clientID, string direction)
+{
 	//given direction of client, apply game logic
 
 	std::string playerMove = players[clientID] + direction; // (ex 1a2w means player 1 pressed a and player 2 pressed w)
@@ -84,19 +87,17 @@ int moveHandler(int clientID, string direction) {
 
 	std::cout << playerMove << std::endl;
 
-	if (State.check_collisions()) {
+	if (State.check_collisions())
+	{
 		return -1;
 	}
 
-	std::cout << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2)
-		<< ":" << State.eatFood << std::endl;
-
-	ostringstream os; // UPDATE:GameBoard:score1:score2:FoodEaten(0/1/2)
-		os << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2)
-		<< ":" << State.eatFood;
+	ostringstream os; // UPDATE:GameBoard:score1:score2
+		os << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2);
 
 	vector<int> clientIDs = server.getClientIDs();
-	for (int i = 0; i < clientIDs.size(); i++) {
+	for (int i = 0; i < clientIDs.size(); i++) 
+	{
 		server.wsSend(clientIDs[i], os.str());
 	}
 
@@ -104,22 +105,15 @@ int moveHandler(int clientID, string direction) {
 }
 
 
-void moveResults(int clientID, string message) {
-	//if needs SETUP and has 2 players, sends clients the ok for new game
-	//else should call on moveHandler to update game state and return update to client
-	std::cout << "In moveResults --> " << message << std::endl;
+void moveResults(int clientID, string message)
+{
 	vector<string> messageArr = split(message, ':');
-	// (ex: START:playerNameInput )
-	std::cout << clientID << std::endl;
 	if (messageArr[0] == "START") 
 		{
-
-			std::cout << "Reached START" << std::endl;
-			if (players[clientID] == "1") // Set custom name. If none, default name used
+			if (players[clientID] == "1")
 			{
 				if (messageArr[1] != "")
 				{
-					std::cout << "p1Name changed." << std::endl;
 					p1Name = messageArr[1];
 				}
 			}
@@ -128,17 +122,15 @@ void moveResults(int clientID, string message) {
 			{
 				if (messageArr[1] != "")
 				{
-					std::cout << "p2Name changed." << std::endl;
 					p2Name = messageArr[1];
 				}
 			}
+
 			if (players.size() == 2)
 			{
-				std::cout << "START:" << State.state_str() << ":" << players[clientID] << ":" << p1Name << ":" << p2Name << std::endl;
-
-				// START:col:row:clientSnake:p1Name:p2Name
 				vector<int> clientIDs = server.getClientIDs();
-				for (int i = 0; i < clientIDs.size(); i++) {
+				for (int i = 0; i < clientIDs.size(); i++) // START:col:row:clientSnake:p1Name:p2Name
+				{
 					server.wsSend(clientIDs[i], "START:" + State.state_str() + ":" + players[i] + ":" + p1Name + ":" + p2Name);
 				}
 				gameStarted = true;
@@ -148,21 +140,15 @@ void moveResults(int clientID, string message) {
 		}
 	
 
-	// (ex: MOVE:DIRECTION )
-	else if (messageArr[0] == "MOVE"){
-		std::cout << "Reached MOVE" << std::endl;
+	
+	else if (messageArr[0] == "MOVE") // MOVE:DIRECTION
+	{
 		string direction = messageArr[1];
 
 		int moveUpdate = moveHandler(clientID, direction);
 
-		if (moveUpdate == -1) {
-			ostringstream os;
-			os << "RESET" ;		// Reset due to collision
-
-			vector<int> clientIDs = server.getClientIDs();
-			for (int i = 0; i < clientIDs.size(); i++) {
-				server.wsSend(clientIDs[i], os.str());
-			}
+		if (moveUpdate == -1)
+		{
 			init();
 		}
 		std::cout << messageArr[2] << std::endl;
@@ -173,7 +159,7 @@ void moveResults(int clientID, string message) {
 void periodicHandler()
 {
 	if (gameStarted) {
-	std::cout << State.state_str() << std::endl;
+	// std::cout << State.state_str() << std::endl;
 	Sleep(5000);
 	State.update();
 	server.wsSend(0, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
