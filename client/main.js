@@ -20,6 +20,8 @@ var score1 = 0, score2 = 0;
 var KEY_LEFT = 37, KEY_UP = 38, KEY_RIGHT = 39, KEY_DOWN = 40; //keyboard [left,up,right,down]
 var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
 
+var offset = 0;
+
 //sends message from client to update server
 function send(text)
 {
@@ -55,15 +57,16 @@ function connect()
     	        clientSnake = IncMessage[2];
     	        p1Name = IncMessage[3];
     	        p2Name = IncMessage[4];
+    	        offset = IncMessage[5];
     	        main();
     	    }
 
-    	    else if (IncMessage[0] == "UPDATE") // UPDATE:GameBoard:score1:score2
+    	    else if (IncMessage[0] == "UPDATE") // UPDATE:GameBoard:score1:score2:offset
     	    {
     	        state_str = IncMessage[1];
     	        score1 = IncMessage[2];
     	        score2 = IncMessage[3];
-    	        
+    	        offset = IncMessage[4];
     	    }
     	});
 }
@@ -164,6 +167,7 @@ function draw_by_str(state_str)
     context.fillStyle = "white";
     context.fillText(p1Name + ": " + score1, 10, canvas.height-5);
     context.fillText(p2Name + ": " + score2, canvas.width - 100, canvas.height - 5);
+    context.fillText("latency" + ": " + offset + " ms", 10, 15);
 }
 
 

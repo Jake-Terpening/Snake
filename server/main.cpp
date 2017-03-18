@@ -25,6 +25,7 @@ std::string * inputs = new string[2];
 
 int update_delay = 1000;
 long long last_update = 0;
+long long * offset  = new long long[2];
 
 
 void init()	// fresh game
@@ -32,6 +33,8 @@ void init()	// fresh game
 	State = gamestate();
 	inputs[0] = "00";
 	inputs[1] = "00";
+	offset[0] = 0;
+	offset[1] = 0;
 }
 
 /* called when a client connects */
@@ -47,6 +50,7 @@ void openHandler(int clientID) {
 	else if (players.size() == 1)
 	{
 		players[clientID] = "2";
+		init();
 	}
 	else
 	{
@@ -98,7 +102,7 @@ void moveHandler(int clientID, string direction)
 		inputs[1] = playerMove;
 
 	ostringstream os; // UPDATE:GameBoard:score1:score2
-		os << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2);
+		os << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2) << ":" << to_string(offset[clientID]);
 
 	/*vector<int> clientIDs = server.getClientIDs();		//I dont think we need this
 	for (int i = 0; i < clientIDs.size(); i++) 
@@ -154,8 +158,8 @@ void moveResults(int clientID, string message)
 		long long num_ms = ms.count();
 		
 		std::cout << "message recieved: " << num_ms << std::endl;
-		long long offset = num_ms - std::stoll(messageArr[2]);
-		std::cout << "offset: " << offset << std::endl;
+		offset[clientID] = num_ms - std::stoll(messageArr[2]);
+		std::cout << clientID << "offset: " << offset[clientID] << std::endl;
 		if (num_ms < last_update)
 		{
 			State.revert();
@@ -187,9 +191,9 @@ void periodicHandler()
 		last_update = ms.count();
 
 		Sleep(random_delay1);
-		server.wsSend(first_to_recieve, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
+		server.wsSend(first_to_recieve, "START:" + State.state_str() + ":" + players[first_to_recieve] + ":" + p1Name + ":" + p2Name + ":" + to_string(offset[first_to_recieve]));
 		Sleep(random_delay2);
-		server.wsSend(second_to_recieve, "START:" + State.state_str() + ":" + players[0] + ":" + p1Name + ":" + p2Name);
+		server.wsSend(second_to_recieve, "START:" + State.state_str() + ":" + players[second_to_recieve] + ":" + p1Name + ":" + p2Name + ":" + to_string(offset[second_to_recieve]));
 		Sleep(update_delay);
 	}
 	
