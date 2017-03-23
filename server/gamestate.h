@@ -67,7 +67,7 @@ public:
 
 	void set_food()					//sets the food to a random empty location
 	{
-		cout << "food was set" << endl;
+		cout << "Food was set." << endl;
 		xpos3 = rand() % 10;
 		ypos3 = rand() % 10;
 		if (field[ypos3][xpos3] == 0)
@@ -78,7 +78,6 @@ public:
 
 	bool check_collisions()			//checks if a game ending collision will occur on the next frame
 	{
-		std::cout << "collisions being checked\n";
 		int newx1 = xpos1 + dir1.first;
 		int newy1 = ypos1 + dir1.second;
 		int newx2 = xpos2 + dir2.first;
@@ -244,30 +243,12 @@ public:
 		cout << "\n\n";
 	}
 
-	std::string foodLoc()		// return coor in string
-	{
-		return std::to_string(xpos3) + "," + std::to_string(ypos3);
-	}
-
-	std::string playerLoc(int player)		// return player pos in string
-	{
-		if (player == 1)
-			return std::to_string(xpos1) + "," + std::to_string(ypos1);
-		else if (player == 2)
-			return std::to_string(xpos2) + "," + std::to_string(ypos2);
-	}
-
 	std::string playerSco(int player)		// return player score in string
 	{
 		if (player == 1)
 			return std::to_string(score1);
 		else if (player == 2)
 			return std::to_string(score2);
-	}
-
-	std::string colRow()		// return player score in string
-	{
-		return to_string(24) + ":" + to_string(24);
 	}
 
 	void set_dir_by_str(string s)		//sets directions using a string input (ex 1a2w means player 1 pressed a and player 2 pressed w)

@@ -35,6 +35,11 @@ void init()	// fresh game
 	inputs[1] = "00";
 	offset[0] = 0;
 	offset[1] = 0;
+	if (players.size() < 2)
+	{
+		gameStarted = false;
+	}
+
 }
 
 /* called when a client connects */
@@ -50,7 +55,6 @@ void openHandler(int clientID) {
 	else if (players.size() == 1)
 	{
 		players[clientID] = "2";
-		init();
 	}
 	else
 	{
@@ -60,6 +64,10 @@ void openHandler(int clientID) {
 
 /* called when a client disconnects */
 void closeHandler(int clientID) {
+	if (players[clientID] == "1")
+		p1Name = "P1";
+	else if (players[clientID] == "2")
+		p2Name = "P2";
 	std::cout << clientID << " disconnected." << std::endl;
 	players.erase(clientID);
 
@@ -93,9 +101,7 @@ void messageHandler(int clientID, string message)
 void moveHandler(int clientID, string direction)
 {
 	//given direction of client, apply game logic
-
 	std::string playerMove = players[clientID] + direction; // (ex 1a2w means player 1 pressed a and player 2 pressed w)
-	//State.set_dir_by_str(playerMove);						//this will be called later
 	if (players[clientID] == "1")
 		inputs[0] = playerMove;
 	else
@@ -104,11 +110,6 @@ void moveHandler(int clientID, string direction)
 	ostringstream os; // UPDATE:GameBoard:score1:score2
 		os << "UPDATE:" << State.state_str() << ":" << State.playerSco(1) << ":" << State.playerSco(2) << ":" << to_string(offset[clientID]);
 
-	/*vector<int> clientIDs = server.getClientIDs();		//I dont think we need this
-	for (int i = 0; i < clientIDs.size(); i++) 
-	{
-		server.wsSend(clientIDs[i], os.str());
-	}*/
 }
 
 
@@ -146,7 +147,7 @@ void moveResults(int clientID, string message)
 	
 
 	
-	else if (messageArr[0] == "MOVE") // MOVE:DIRECTION
+	else if (messageArr[0] == "MOVE") // MOVE:direction
 	{
 		string direction = messageArr[1];
 
@@ -171,21 +172,20 @@ void moveResults(int clientID, string message)
 /* called once per select() loop */
 void periodicHandler()
 {
-	/*if (State.check_collisions())
-		init();*/
 	if (gameStarted) 
 	{
+		if (State.check_collisions())
+		{
+			init();
+		}
 		std::string update_str(inputs[0] + inputs[1]);
 		State.set_dir_by_str(update_str);
-
-		
 
 		int random_delay1 = rand() % 390 + 10;
 		int random_delay2 = rand() % 390 + 10;
 		random_delay2 = abs(random_delay1 - random_delay2);
 		int first_to_recieve = rand() % 2;
 		int second_to_recieve = 1 - first_to_recieve;
-		// std::cout << State.state_str() << std::endl;
 		State.update();
 		milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 		last_update = ms.count();

@@ -1,6 +1,5 @@
 ﻿  main.cpp
-c:\users\whitney\documents\github\snake\server\main.cpp(93): warning C4018: '<': signed/unsigned mismatch
-c:\users\whitney\documents\github\snake\server\main.cpp(124): warning C4018: '<': signed/unsigned mismatch
-c:\users\whitney\documents\github\snake\server\gamestate.h(224): warning C4715: 'gamestate::playerSco': not all control paths return a value
+c:\users\whitney\documents\github\snake\server\main.cpp(140): warning C4018: '<': signed/unsigned mismatch
+c:\users\whitney\documents\github\snake\server\gamestate.h(252): warning C4715: 'gamestate::playerSco': not all control paths return a value
   167SnakeServer.vcxproj -> C:\Users\Whitney\Documents\GitHub\Snake\server\167SnakeServer\Debug\167SnakeServer.exe
   167SnakeServer.vcxproj -> C:\Users\Whitney\Documents\GitHub\Snake\server\167SnakeServer\Debug\167SnakeServer.pdb (Partial PDB)

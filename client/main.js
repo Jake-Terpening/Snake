@@ -7,14 +7,12 @@
 
 var Server;
 
-var SPACESIZE = 20;
 var col = 12, row = 12; // store size of board
 
 var state_str = "";
 var IncMessage = "";
 
 var p1Name = "", p2Name = "";
-var clientSnake; // client's snake
 var score1 = 0, score2 = 0;
 
 var KEY_LEFT = 37, KEY_UP = 38, KEY_RIGHT = 39, KEY_DOWN = 40; //keyboard [left,up,right,down]
@@ -22,7 +20,7 @@ var A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;  //keyboard [a,w,d,s]
 
 var offset = 0;
 
-//sends message from client to update server
+/* sends message from client to update server */
 function send(text)
 {
     setTimeout(function(){
@@ -43,15 +41,15 @@ function connect()
 
     	Server.bind('close', function (data)
 	{
-        	document.getElementById("cntBtn").disabled = false;
+    	    document.getElementById("cntBtn").disabled = false;
     	});
 
-    //receives message back from server to update client
+    /* receives message back from server to update client */
     	Server.bind('message', function (message)
 	{
     	    IncMessage = message.split(':'); //which ever format the message comes in
 
-    	    if (IncMessage[0] == "START") // START:GameBoard:clientSnake:p1Name:p2Name
+    	    if (IncMessage[0] == "START") // START:GameBoard:clientSnake:p1Name:p2Name:offset
     	    {
     	        state_str = IncMessage[1];
     	        clientSnake = IncMessage[2];
@@ -67,6 +65,11 @@ function connect()
     	        score1 = IncMessage[2];
     	        score2 = IncMessage[3];
     	        offset = IncMessage[4];
+    	    }
+
+    	    else if (IncMessage[0] == "RESET")
+    	    {
+    	        init();
     	    }
     	});
 }
